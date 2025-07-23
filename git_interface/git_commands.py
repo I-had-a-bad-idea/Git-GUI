@@ -70,3 +70,17 @@ def get_repo_status(repo_path: str) -> None:
             print(f"Error getting repository status: {e}")
     else:
         print(f"Repository path {repo_path} does not exist.")
+
+def get_unstaged_files(repo_path: str) -> list:
+    if os.path.exists(repo_path):
+        try:
+            repo = Repo(repo_path)
+            unstaged_files = [item.a_path for item in repo.index.diff(None)]
+            print("Unstaged files:")
+            return unstaged_files
+        except GitCommandError as e:
+            print(f"Error getting unstaged files: {e}")
+            return []
+    else:
+        print(f"Repository path {repo_path} does not exist.")
+        return []
