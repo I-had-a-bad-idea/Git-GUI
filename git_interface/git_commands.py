@@ -84,3 +84,17 @@ def get_unstaged_files(repo_path: str) -> list:
     else:
         print(f"Repository path {repo_path} does not exist.")
         return []
+
+def get_staged_files(repo_path: str) -> list:
+    if os.path.exists(repo_path):
+        try:
+            repo = Repo(repo_path)
+            staged_files = [item.a_path for item in repo.index.diff("HEAD")]
+            print("Staged files:")
+            return staged_files
+        except GitCommandError as e:
+            print(f"Error getting staged files: {e}")
+            return []
+    else:
+        print(f"Repository path {repo_path} does not exist.")
+        return []
