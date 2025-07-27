@@ -11,6 +11,8 @@ class StartupWindow:
         root.title("Git GUI")
         root.geometry("400x300")
         root.configure(bg = BG_DARK)
+        
+        # Set window icon for this window as well
 
         # Center frame for buttons
         main_frame = tk.Frame(root, bg = BG_DARK)

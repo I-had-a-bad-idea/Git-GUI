@@ -1,10 +1,10 @@
 import tkinter as tk
 
 # Background colors
-BG_DARK = "gray20"
-BG_DARKER = "gray15"
-BG_LIGHTER = "gray25"
-BG_BUTTON = "gray30"
+BG_DARK = "gray15"
+BG_DARKER = "gray10"
+BG_LIGHTER = "gray20"
+BG_BUTTON = "gray25"
 
 # Text colors
 TEXT_NORMAL = "white"
@@ -13,7 +13,7 @@ TEXT_NORMAL = "white"
 FONT_NORMAL = ("Arial", 11)
 FONT_SMALL = ("Arial", 10)
 FONT_TITLE = ("Arial", 12)
-FONT_MONO = ("Arial", 12)
+FONT_MONO = ("Arial", 12)  #TODO make this something unique
 
 # Common styles
 BUTTON_STYLE = {
