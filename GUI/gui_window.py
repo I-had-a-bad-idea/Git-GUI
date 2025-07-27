@@ -1,56 +1,13 @@
 import tkinter as tk
 from tkinter import filedialog, messagebox
 from git_interface import git_commands
-
-# Color 
-
-# Background colors
-BG_DARK = "gray20"
-BG_DARKER = "gray15"
-BG_LIGHTER = "gray25"
-BG_BUTTON = "gray30"
-
-# Text colors
-TEXT_NORMAL = "white"
-
-# Fonts
-FONT_NORMAL = ("Arial", 11)
-FONT_SMALL = ("Arial", 10)
-FONT_TITLE = ("Arial", 12)
-FONT_MONO = ("Arial", 12)
+from .theme import *
 
 class GUIWindow:
     def __init__(self, root) -> None:
         # Instance-specific repository paths
         self.repo_path = ""
         self.repo_url = ""
-
-        # Common styles
-        self.button_style = {
-            "width": 12, 
-            "font": FONT_NORMAL, 
-            "bg": BG_BUTTON, 
-            "fg": TEXT_NORMAL
-        }
-
-        self.label_style = {
-            "bg": BG_DARK,
-            "fg": TEXT_NORMAL,
-            "font": FONT_NORMAL
-        }
-
-        self.entry_style = {
-            "bg": BG_BUTTON,
-            "fg": TEXT_NORMAL,
-            "font": FONT_NORMAL
-        }
-
-        self.list_style = {
-            "bg": BG_DARKER,
-            "fg": TEXT_NORMAL,
-            "font": FONT_NORMAL,
-            "selectmode": tk.MULTIPLE
-        }
 
         # Setup main window
         root.title("Git GUI")
@@ -73,11 +30,11 @@ class GUIWindow:
         self.repo_entry = tk.Entry(toolbar, 
                                  textvariable = self.repo_path_var, 
                                  width = 40, 
-                                 **self.entry_style)
+                                 **ENTRY_STYLE)
         self.repo_entry.pack(side = "left", padx = 5)
 
         browse_button = tk.Button(toolbar, text = "Browse", command = self.browse_repo, 
-                                **self.button_style)
+                                **BUTTON_STYLE)
         browse_button.pack(side = "left", padx = 5)
 
         # Repository URL
@@ -91,12 +48,12 @@ class GUIWindow:
         self.url_entry = tk.Entry(toolbar, 
                                  textvariable = self.repo_url_var, 
                                  width = 50, 
-                                 **self.entry_style)
+                                 **ENTRY_STYLE)
         self.url_entry.pack(side = "left", padx = 5)
 
         # Settings button
         settings_button = tk.Button(toolbar, text = "⚙", command = self.show_settings,
-                                  **self.button_style)
+                                  **BUTTON_STYLE)
         settings_button.pack(side = "right", padx = 5)
 
         # Create main frames
@@ -120,7 +77,7 @@ class GUIWindow:
                                 font = FONT_TITLE)
         unstaged_label.pack(anchor = "w")
 
-        self.unstaged_file_list = tk.Listbox(files_frame, height = 15, width = 40, **self.list_style)
+        self.unstaged_file_list = tk.Listbox(files_frame, height = 15, width = 40, **LIST_STYLE)
         self.unstaged_file_list.pack(fill = "x", pady = (0, 10))
 
         # Staged files section
@@ -130,7 +87,7 @@ class GUIWindow:
                                 font = FONT_TITLE)
         staged_label.pack(anchor = "w")
 
-        self.staged_file_list = tk.Listbox(files_frame, height = 15, width = 40, **self.list_style)
+        self.staged_file_list = tk.Listbox(files_frame, height = 15, width = 40, **LIST_STYLE)
         self.staged_file_list.pack(fill = "x", pady = (0, 10))
 
         # Add log frame under the lists
@@ -154,18 +111,18 @@ class GUIWindow:
         self.log_text.configure(yscrollcommand = log_scroll.set)
 
         # Buttons remain the same in buttons_frame
-        self.add_button = tk.Button(buttons_frame, text = "↓ Stage", command = self.add, **self.button_style)
+        self.add_button = tk.Button(buttons_frame, text = "↓ Stage", command = self.add, **BUTTON_STYLE)
         self.add_button.pack(pady = 5)
 
         # Unstage button
-        self.unstage_button = tk.Button(buttons_frame, text="↑ Unstage", command=self.unstage, **self.button_style)
+        self.unstage_button = tk.Button(buttons_frame, text="↑ Unstage", command=self.unstage, **BUTTON_STYLE)
         self.unstage_button.pack(pady=5)
 
         # Repository action buttons
-        self.pull_button = tk.Button(buttons_frame, text="Pull", command=self.pull, **self.button_style)
+        self.pull_button = tk.Button(buttons_frame, text="Pull", command=self.pull, **BUTTON_STYLE)
         self.pull_button.pack(pady=5)
 
-        self.push_button = tk.Button(buttons_frame, text="Push", command=self.push, **self.button_style)
+        self.push_button = tk.Button(buttons_frame, text="Push", command=self.push, **BUTTON_STYLE)
         self.push_button.pack(pady=5)
 
         # Center panel - Diff view
@@ -207,7 +164,7 @@ class GUIWindow:
         self.commit_text_box.config(bg = BG_DARKER, fg = TEXT_NORMAL, font = FONT_NORMAL)
         self.commit_text_box.pack(side="left", fill="x", expand=True, padx=5)
 
-        self.commit_button = tk.Button(commit_frame, text="Commit", command=self.commit, **self.button_style)
+        self.commit_button = tk.Button(commit_frame, text="Commit", command=self.commit, **BUTTON_STYLE)
         self.commit_button.pack(side="right")
 
         # Add bindings for file selection

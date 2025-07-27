@@ -2,6 +2,7 @@ import tkinter as tk
 from tkinter import filedialog, messagebox
 from git_interface import git_commands
 from .gui_window import GUIWindow
+from .theme import *
 import os
 
 class StartupWindow:
@@ -9,45 +10,35 @@ class StartupWindow:
         self.root = root
         root.title("Git GUI")
         root.geometry("400x300")
-        root.configure(bg = "gray20")
+        root.configure(bg = BG_DARK)
 
         # Center frame for buttons
-        main_frame = tk.Frame(root, bg = "gray20")
+        main_frame = tk.Frame(root, bg = BG_DARK)
         main_frame.pack(expand = True)
 
         # Title
         title = tk.Label(main_frame, 
                         text = "Git Repository", 
-                        font = ("Arial", 16),
-                        bg = "gray20",
-                        fg = "white")
+                        **LABEL_STYLE)
         title.pack(pady = 20)
 
         # Buttons
-        button_style = {
-            "width": 20,
-            "font": ("Arial", 11),
-            "bg": "gray30",
-            "fg": "white",
-            "pady": 5
-        }
-
         open_button = tk.Button(main_frame, 
                               text = "Open Existing Repository",
                               command = self.open_repository,
-                              **button_style)
+                              **BUTTON_STYLE)
         open_button.pack(pady = 10)
 
         create_button = tk.Button(main_frame,
                                 text = "Create New Repository",
                                 command = self.create_repository,
-                                **button_style)
+                                **BUTTON_STYLE)
         create_button.pack(pady = 10)
 
         clone_button = tk.Button(main_frame,
                                text = "Clone Repository",
                                command = self.clone_repository,
-                               **button_style)
+                               **BUTTON_STYLE)
         clone_button.pack(pady = 10)
 
     def open_repository(self):
