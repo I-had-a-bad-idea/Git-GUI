@@ -1,15 +1,24 @@
 import os
 from git import Repo, GitCommandError 
 
-def clone_repo(repo_url: str, destination: str) -> None:
+def init_repo(path: str) -> tuple[bool, str]:
+    try:
+        Repo.init(path)
+        return True, "Repository created successfully"
+    except Exception as e:
+        return False, str(e)
+
+def clone_repo(repo_url: str, destination: str) -> tuple[bool, str]:
+
     if not os.path.exists(destination):
         try:
             Repo.clone_from(repo_url, destination)
-            print(f"Repository cloned to {destination}")
+            return True, f"Repository cloned successfully to {destination}"
         except GitCommandError as e:
-            print(f"Error cloning repository: {e}")
+            return False, str(e)
     else:
-        print(f"Destination {destination} already exists. Skipping clone.")
+        return False, f"Destination {destination} already exists"
+
 
 def pull_from_repo(repo_path: str) -> tuple[bool, str]:
     if os.path.exists(repo_path):
@@ -149,3 +158,13 @@ def set_config(key: str, value: str) -> None:
         repo.git.config(key, value)
     except GitCommandError as e:
         print(f"Error setting config {key}: {e}")
+
+def get_remote_url(repo_path: str) -> str:
+    """Get the remote URL of the repository."""
+    if os.path.exists(repo_path):
+        try:
+            repo = Repo(repo_path)
+            return repo.remotes.origin.url
+        except:
+            return ""
+    return ""

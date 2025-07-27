@@ -1,11 +1,8 @@
-import tkinter
-from GUI.gui_window import GUIWindow
+import tkinter as tk
+from GUI.startup_window import StartupWindow
 
 
 if __name__ == "__main__":
-
-    root = tkinter.Tk()
-    
-
-    window = GUIWindow(root)
+    root = tk.Tk()
+    startup_window = StartupWindow(root)
     root.mainloop()
