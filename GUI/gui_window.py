@@ -63,67 +63,37 @@ class GUIWindow:
         center_panel = tk.Frame(root, bg = BG_DARK)
         center_panel.pack(side = "left", fill = "both", expand = True, padx = 10, pady = 10)
         
-        # Left side - File lists, buttons and log
+        # Left side - File lists and buttons
         files_frame = tk.Frame(left_panel, bg = BG_DARK)
-        files_frame.pack(side = "left", fill = "both", expand = True)  # Changed to expand=True
+        files_frame.pack(side = "left", fill = "both", expand = True)
         
         buttons_frame = tk.Frame(left_panel, bg = BG_DARK)
         buttons_frame.pack(side = "left", fill = "y", padx = (10, 0))
 
         # Unstaged files section
-        unstaged_label = tk.Label(files_frame, text = "Unstaged Changes", 
-                                bg = BG_DARK, 
-                                fg = TEXT_NORMAL, 
-                                font = FONT_TITLE)
+        unstaged_label = tk.Label(files_frame, text = "Unstaged Changes", **LABEL_STYLE)
         unstaged_label.pack(anchor = "w")
 
         self.unstaged_file_list = tk.Listbox(files_frame, height = 15, width = 40, **LIST_STYLE)
         self.unstaged_file_list.pack(fill = "x", pady = (0, 10))
 
         # Staged files section
-        staged_label = tk.Label(files_frame, text = "Staged Changes", 
-                                bg = BG_DARK, 
-                                fg = TEXT_NORMAL, 
-                                font = FONT_TITLE)
+        staged_label = tk.Label(files_frame, text = "Staged Changes", **LABEL_STYLE)
         staged_label.pack(anchor = "w")
 
         self.staged_file_list = tk.Listbox(files_frame, height = 15, width = 40, **LIST_STYLE)
         self.staged_file_list.pack(fill = "x", pady = (0, 10))
 
-        # Add log frame under the lists
-        log_label = tk.Label(files_frame, text = "Output Log", 
-                           bg = BG_DARK, 
-                           fg = TEXT_NORMAL, 
-                           font = FONT_TITLE)
-        log_label.pack(anchor = "w", pady = (10, 5))
+        # Commit message section (moved to bottom)
+        commit_label = tk.Label(files_frame, text = "Commit Message", **LABEL_STYLE)
+        commit_label.pack(anchor = "w", pady = (10, 5))
 
-        # Create frame for log and its scrollbar
-        log_frame = tk.Frame(files_frame, bg = BG_DARK)
-        log_frame.pack(fill = "both", expand = True)
+        self.commit_message = tk.Text(files_frame, height = 3, width = 40)
+        self.commit_message.config(bg = BG_DARKER, fg = TEXT_NORMAL, font = FONT_SMALL)
+        self.commit_message.pack(fill = "x")
 
-        self.log_text = tk.Text(log_frame, height = 10, width = 40, wrap = tk.WORD)
-        self.log_text.config(bg = BG_DARKER, fg = TEXT_NORMAL, font = FONT_SMALL)
-        self.log_text.pack(side = "left", fill = "both", expand = True)
-
-        # Add log scrollbar
-        log_scroll = tk.Scrollbar(log_frame, orient = "vertical", command = self.log_text.yview)
-        log_scroll.pack(side = "right", fill = "y")
-        self.log_text.configure(yscrollcommand = log_scroll.set)
-
-        # Buttons remain the same in buttons_frame
-        self.add_button = tk.Button(buttons_frame, text = "↓ Stage", command = self.add, **BUTTON_STYLE)
-        self.add_button.pack(pady = 5)
-
-        # Unstage button
-        self.unstage_button = tk.Button(buttons_frame, text="↑ Unstage", command=self.unstage, **BUTTON_STYLE)
-        self.unstage_button.pack(pady=5)
-
-        # Repository action buttons
-        self.pull_button = tk.Button(buttons_frame, text="Pull", command=self.pull, **BUTTON_STYLE)
-        self.pull_button.pack(pady=5)
-
-        self.push_button = tk.Button(buttons_frame, text="Push", command=self.push, **BUTTON_STYLE)
-        self.push_button.pack(pady=5)
+        commit_button = tk.Button(files_frame, text = "Commit", command = self.commit, **BUTTON_STYLE)
+        commit_button.pack(pady = 5)
 
         # Center panel - Diff view
         diff_label = tk.Label(center_panel, text="Changes", 
@@ -150,22 +120,37 @@ class GUIWindow:
         diff_xscroll.pack(fill="x")
         self.diff_text.configure(xscrollcommand=diff_xscroll.set)
 
-        # Bottom panel - Commit section
-        commit_frame = tk.Frame(center_panel, bg = BG_DARK)
-        commit_frame.pack(fill="x", side="bottom")
+        # Output Log (moved below diff)
+        log_label = tk.Label(center_panel, text = "Output Log", **LABEL_STYLE)
+        log_label.pack(anchor = "w", pady = (10, 5))
 
-        commit_label = tk.Label(commit_frame, text="Commit Message", 
-                                bg = BG_DARK, 
-                                fg = TEXT_NORMAL, 
-                                font = FONT_TITLE)
-        commit_label.pack(side="left")
+        # Create frame for log and its scrollbar
+        log_frame = tk.Frame(center_panel, bg = BG_DARK)
+        log_frame.pack(fill = "both", expand = True)
 
-        self.commit_text_box = tk.Text(commit_frame, height=3, width=50)
-        self.commit_text_box.config(bg = BG_DARKER, fg = TEXT_NORMAL, font = FONT_NORMAL)
-        self.commit_text_box.pack(side="left", fill="x", expand=True, padx=5)
+        self.log_text = tk.Text(log_frame, height = 10, wrap = tk.WORD)
+        self.log_text.config(bg = BG_DARKER, fg = TEXT_NORMAL, font = FONT_SMALL)
+        self.log_text.pack(side = "left", fill = "both", expand = True)
 
-        self.commit_button = tk.Button(commit_frame, text="Commit", command=self.commit, **BUTTON_STYLE)
-        self.commit_button.pack(side="right")
+        # Add log scrollbar
+        log_scroll = tk.Scrollbar(log_frame, orient = "vertical", command = self.log_text.yview)
+        log_scroll.pack(side = "right", fill = "y")
+        self.log_text.configure(yscrollcommand = log_scroll.set)
+
+        # Buttons remain the same in buttons_frame
+        self.add_button = tk.Button(buttons_frame, text = "↓ Stage", command = self.add, **BUTTON_STYLE)
+        self.add_button.pack(pady = 5)
+
+        # Unstage button
+        self.unstage_button = tk.Button(buttons_frame, text="↑ Unstage", command=self.unstage, **BUTTON_STYLE)
+        self.unstage_button.pack(pady=5)
+
+        # Repository action buttons
+        self.pull_button = tk.Button(buttons_frame, text="Pull", command=self.pull, **BUTTON_STYLE)
+        self.pull_button.pack(pady=5)
+
+        self.push_button = tk.Button(buttons_frame, text="Push", command=self.push, **BUTTON_STYLE)
+        self.push_button.pack(pady=5)
 
         # Add bindings for file selection
         self.unstaged_file_list.bind('<<ListboxSelect>>', self.show_unstaged_diff)
@@ -192,12 +177,12 @@ class GUIWindow:
             self.refresh_lists()
 
     def commit(self):
-        commit_message = self.commit_text_box.get("1.0", tk.END).strip()
+        commit_message = self.commit_message.get("1.0", tk.END).strip()
         if commit_message:
             success, message = git_commands.commit_changes(self.repo_path, commit_message)
             self.log_message(message)
             if success:
-                self.commit_text_box.delete("1.0", tk.END)
+                self.commit_message.delete("1.0", tk.END)
                 self.refresh_lists()
 
     def push(self):
