@@ -2,9 +2,13 @@ import tkinter as tk
 from tkinter import filedialog, messagebox
 from git_interface import git_commands
 from .theme import *
+from .graph_window import GraphWindow
 
 class GUIWindow:
     def __init__(self, root) -> None:
+        # Store root window
+        self.root = root
+        
         # Instance-specific repository paths
         self.repo_path = ""
         self.repo_url = ""
@@ -50,6 +54,11 @@ class GUIWindow:
                                  width = 50, 
                                  **ENTRY_STYLE)
         self.url_entry.pack(side = "left", padx = 5)
+
+        # History button
+        graph_button = tk.Button(toolbar, text = "Graph", command=self.show_graph,
+                                 **BUTTON_STYLE)
+        graph_button.pack(side = "right", padx = 5) 
 
         # Settings button
         settings_button = tk.Button(toolbar, text = "⚙", command = self.show_settings,
@@ -287,6 +296,12 @@ class GUIWindow:
         if email:
             git_commands.set_config("user.email", email)
         messagebox.showinfo("Success", "Settings saved successfully")
+
+    def show_graph(self):
+        if self.repo_path:
+            GraphWindow(self.root, self.repo_path)
+        else:
+            messagebox.showerror("Error", "Please open a repository first")
 
     # Add log method
     def log_message(self, message: str):
