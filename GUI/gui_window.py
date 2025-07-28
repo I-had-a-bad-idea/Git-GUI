@@ -96,39 +96,39 @@ class GUIWindow:
         commit_button.pack(pady = 5)
 
         # Center panel - Diff view
-        diff_label = tk.Label(center_panel, text="Changes", 
+        diff_label = tk.Label(center_panel, text = "Changes", 
                             bg = BG_DARK, 
                             fg = TEXT_NORMAL, 
                             font = FONT_TITLE)
-        diff_label.pack(anchor="w")
+        diff_label.pack(anchor = "w")
 
         # Add diff text widget with scrollbars
         diff_frame = tk.Frame(center_panel, bg = BG_DARK)
-        diff_frame.pack(fill="both", expand=True, pady=(0, 10))
+        diff_frame.pack(fill = "both", expand = True, pady = (0, 10))
 
-        self.diff_text = tk.Text(diff_frame, wrap=tk.NONE)
+        self.diff_text = tk.Text(diff_frame, wrap = tk.NONE)
         self.diff_text.config(bg = BG_DARKER, fg = TEXT_NORMAL, font = FONT_MONO)
-        self.diff_text.pack(side="left", fill="both", expand=True)
+        self.diff_text.pack(side = "left", fill = "both", expand = True)
 
         # Vertical scrollbar for diff view
-        diff_yscroll = tk.Scrollbar(diff_frame, orient="vertical", command=self.diff_text.yview)
-        diff_yscroll.pack(side="right", fill="y")
-        self.diff_text.configure(yscrollcommand=diff_yscroll.set)
+        diff_yscroll = tk.Scrollbar(diff_frame, orient = "vertical", command = self.diff_text.yview)
+        diff_yscroll.pack(side="right", fill = "y")
+        self.diff_text.configure(yscrollcommand = diff_yscroll.set)
 
         # Horizontal scrollbar for diff view
-        diff_xscroll = tk.Scrollbar(center_panel, orient="horizontal", command=self.diff_text.xview)
+        diff_xscroll = tk.Scrollbar(center_panel, orient = "horizontal", command = self.diff_text.xview)
         diff_xscroll.pack(fill="x")
-        self.diff_text.configure(xscrollcommand=diff_xscroll.set)
+        self.diff_text.configure(xscrollcommand = diff_xscroll.set)
 
         # Output Log (moved below diff)
-        log_label = tk.Label(center_panel, text = "Output Log", **LABEL_STYLE)
+        log_label = tk.Label(center_panel, text = "Log", **LABEL_STYLE)
         log_label.pack(anchor = "w", pady = (10, 5))
 
         # Create frame for log and its scrollbar
         log_frame = tk.Frame(center_panel, bg = BG_DARK)
         log_frame.pack(fill = "both", expand = True)
 
-        self.log_text = tk.Text(log_frame, height = 10, wrap = tk.WORD)
+        self.log_text = tk.Text(log_frame, height = 1, wrap = tk.WORD)
         self.log_text.config(bg = BG_DARKER, fg = TEXT_NORMAL, font = FONT_SMALL)
         self.log_text.pack(side = "left", fill = "both", expand = True)
 
@@ -146,11 +146,14 @@ class GUIWindow:
         self.unstage_button.pack(pady=5)
 
         # Repository action buttons
-        self.pull_button = tk.Button(buttons_frame, text="Pull", command=self.pull, **BUTTON_STYLE)
+        self.pull_button = tk.Button(buttons_frame, text = "Pull", command = self.pull, **BUTTON_STYLE)
         self.pull_button.pack(pady=5)
 
-        self.push_button = tk.Button(buttons_frame, text="Push", command=self.push, **BUTTON_STYLE)
-        self.push_button.pack(pady=5)
+        self.push_button = tk.Button(buttons_frame, text = "Push", command = self.push, **BUTTON_STYLE)
+        self.push_button.pack(pady = 5)
+
+        self.log_button = tk.Button(buttons_frame, text = "Log", command = self.log, **BUTTON_STYLE)
+        self.log_button.pack(pady = 5)
 
         # Add bindings for file selection
         self.unstaged_file_list.bind('<<ListboxSelect>>', self.show_unstaged_diff)
@@ -194,6 +197,14 @@ class GUIWindow:
         self.log_message(message)
         if success:
             self.refresh_lists()
+
+    def log(self):
+        success, message, log_data = git_commands.get_log(self.repo_path)
+        if success:
+            for i in range(len(log_data) - 1,-1, -1):
+                self.log_message(f"\n {log_data[i]['commit']}: \t \t {log_data[i]['message']} \n ({log_data[i]['author']}), \t \t {log_data[i]['date']})")
+        else:
+            self.log_message(message)
 
     def refresh_lists(self):
         self.unstaged_file_list.delete(0, tk.END)
