@@ -15,6 +15,3 @@ if __name__ == "__main__":
     
     startup_window = StartupWindow(root)
     root.mainloop()
-
-
-#FIXME the add doesnt work for deleted files

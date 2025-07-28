@@ -36,7 +36,8 @@ def add_changes(repo_path: str, files: list) -> tuple[bool, str]:
     if os.path.exists(repo_path):
         try:
             repo = Repo(repo_path)
-            repo.index.add(files)
+            repo.git.add(files)
+
             message = f"Added changes for files: {', '.join(files)}"
             return True, message
         except GitCommandError as e:
@@ -90,6 +91,7 @@ def get_unstaged_files(repo_path: str) -> list:
             repo = Repo(repo_path)
             # Get modified files
             modified = [item.a_path for item in repo.index.diff(None)]
+            
             # Get untracked files
             untracked = repo.untracked_files
             return modified + untracked
