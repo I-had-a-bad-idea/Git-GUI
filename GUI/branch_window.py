@@ -92,3 +92,6 @@ class BranchWindow:
                 self.refresh_branches()
                 self.refresh_callback()
             messagebox.showinfo("Swiched branch to", message)
+
+
+#this (comment) is for test purposes
