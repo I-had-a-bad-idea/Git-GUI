@@ -71,26 +71,24 @@ class BranchWindow:
     def delete_branch(self):
         selection = self.branch_list.curselection()
         if selection:
-            branch = self.branch_list.get(selection[0]).strip()
-            if branch.startswith("* "):
+            branch_name = self.branch_list.get(selection[0]).strip()
+            if branch_name.startswith("* "):
                 messagebox.showerror("Error", "Cannot delete current branch")
                 return
-            branch_name = branch[2:]  # Remove the "  " prefix
             success, message = git_commands.delete_branch(self.repo_path, branch_name)
             if success:
                 self.refresh_branches()
-            messagebox.showinfo("Branch Deletion", message)
+            messagebox.showinfo("Deleted", message)
     
     def switch_branch(self):
         selection = self.branch_list.curselection()
         if selection:
-            branch = self.branch_list.get(selection[0]).strip()
-            if branch.startswith("* "):
+            branch_name = self.branch_list.get(selection[0]).strip()
+            if branch_name.startswith("* "):
                 messagebox.showinfo("Info", "Already on this branch")
                 return
-            branch_name = branch[2:]  # Remove the "  " prefix
             success, message = git_commands.switch_branch(self.repo_path, branch_name)
             if success:
                 self.refresh_branches()
                 self.refresh_callback()
-            messagebox.showinfo("Branch Switch", message)
+            messagebox.showinfo("Swiched branch to", message)
