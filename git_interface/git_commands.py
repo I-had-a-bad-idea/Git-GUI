@@ -148,7 +148,6 @@ def get_current_branch(repo_path: str) -> str:
         return ""
 
 def get_file_diff(repo_path: str, file_path: str, staged: bool = False) -> str:
-    """Get the diff for a specific file."""
     if os.path.exists(repo_path):
         try:
             repo = Repo(repo_path)
@@ -165,7 +164,6 @@ def get_file_diff(repo_path: str, file_path: str, staged: bool = False) -> str:
     return ""
 
 def get_config(key: str) -> str:
-    """Get Git configuration value."""
     try:
         repo = Repo(".")
         return repo.git.config("--get", key)
@@ -173,7 +171,6 @@ def get_config(key: str) -> str:
         return ""
 
 def set_config(key: str, value: str) -> None:
-    """Set Git configuration value."""
     try:
         repo = Repo(".")
         repo.git.config(key, value)
@@ -181,7 +178,6 @@ def set_config(key: str, value: str) -> None:
         print(f"Error setting config {key}: {e}")
 
 def get_remote_url(repo_path: str) -> str:
-    """Get the remote URL of the repository."""
     if os.path.exists(repo_path):
         try:
             repo = Repo(repo_path)
@@ -189,3 +185,47 @@ def get_remote_url(repo_path: str) -> str:
         except:
             return ""
     return ""
+
+def get_branches(repo_path: str) -> tuple[bool, str, dict]:
+    if os.path.exists(repo_path):
+        try:
+            repo = Repo(repo_path)
+            branches = [branch.name for branch in repo.heads]
+            current = repo.active_branch.name
+            return True, "", {"branches": branches, "current": current}
+        except GitCommandError as e:
+            return False, f"Error getting branches: {e}", {}
+    return False, "Repository path does not exist", {}
+
+def create_branch(repo_path: str, branch_name: str) -> tuple[bool, str]:
+    if os.path.exists(repo_path):
+        try:
+            repo = Repo(repo_path)
+            current = repo.active_branch
+            new_branch = repo.create_head(branch_name)
+            return True, f"Created branch {branch_name}"
+        except GitCommandError as e:
+            return False, f"Error creating branch: {e}"
+    return False, "Repository path does not exist"
+
+def delete_branch(repo_path: str, branch_name: str) -> tuple[bool, str]:
+    if os.path.exists(repo_path):
+        try:
+            repo = Repo(repo_path)
+            if branch_name == repo.active_branch.name:
+                return False, "Cannot delete the currently active branch"
+            repo.delete_head(branch_name)
+            return True, f"Deleted branch {branch_name}"
+        except GitCommandError as e:
+            return False, f"Error deleting branch: {e}"
+    return False, "Repository path does not exist"
+
+def switch_branch(repo_path: str, branch_name: str) -> tuple[bool, str]:
+    if os.path.exists(repo_path):
+        try:
+            repo = Repo(repo_path)
+            repo.git.checkout(branch_name)
+            return True, f"Switched to branch {branch_name}"
+        except GitCommandError as e:
+            return False, f"Error switching branch: {e}"
+    return False, "Repository path does not exist"

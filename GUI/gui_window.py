@@ -3,6 +3,7 @@ from tkinter import filedialog, messagebox
 from git_interface import git_commands
 from .theme import *
 from .graph_window import GraphWindow
+from .branch_window import BranchWindow
 
 class GUIWindow:
     def __init__(self, root) -> None:
@@ -55,15 +56,16 @@ class GUIWindow:
                                  **ENTRY_STYLE)
         self.url_entry.pack(side = "left", padx = 5)
 
-        # History button
-        graph_button = tk.Button(toolbar, text = "Graph", command=self.show_graph,
+        # Right side toolbar buttons (update this section)
+        # Branch button
+        branch_button = tk.Button(toolbar, text="⎇", command=self.show_branches,
                                  **BUTTON_STYLE)
-        graph_button.pack(side = "right", padx = 5) 
+        branch_button.pack(side="right", padx=5)
 
         # Settings button
-        settings_button = tk.Button(toolbar, text = "⚙", command = self.show_settings,
+        settings_button = tk.Button(toolbar, text="⚙", command=self.show_settings,
                                   **BUTTON_STYLE)
-        settings_button.pack(side = "right", padx = 5)
+        settings_button.pack(side="right", padx=5)
 
         # Create main frames
         left_panel = tk.Frame(root, bg = BG_DARK)
@@ -297,13 +299,14 @@ class GUIWindow:
             git_commands.set_config("user.email", email)
         messagebox.showinfo("Success", "Settings saved successfully")
 
-    def show_graph(self):
+
+    def show_branches(self):
         if self.repo_path:
-            GraphWindow(self.root, self.repo_path)
+            BranchWindow(self.root, self.repo_path, self.refresh_lists)
         else:
             messagebox.showerror("Error", "Please open a repository first")
 
-    # Add log method
+
     def log_message(self, message: str):
         self.log_text.insert(tk.END, f"{message}\n")
         self.log_text.see(tk.END)  # Auto-scroll to bottom

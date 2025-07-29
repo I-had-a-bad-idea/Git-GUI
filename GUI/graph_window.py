@@ -3,7 +3,7 @@ from tkinter import ttk
 from git_interface import git_commands
 from .theme import *
 
-#TODO finish the graph (things like branches, etc.)
+#TODO currently removed, should this even be reimplemented?
 
 class GraphWindow:
     def __init__(self, root, repo_path):
