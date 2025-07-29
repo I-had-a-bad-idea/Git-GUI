@@ -78,7 +78,7 @@ class BranchWindow:
             success, message = git_commands.delete_branch(self.repo_path, branch_name)
             if success:
                 self.refresh_branches()
-            messagebox.showinfo("Deleted", message)
+            messagebox.showinfo("Branch Deletion", message)
     
     def switch_branch(self):
         selection = self.branch_list.curselection()
@@ -91,7 +91,4 @@ class BranchWindow:
             if success:
                 self.refresh_branches()
                 self.refresh_callback()
-            messagebox.showinfo("Swiched branch to", message)
-
-
-#this (comment) is for test purposes
+            messagebox.showinfo("Branch Switch", message)

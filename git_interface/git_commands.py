@@ -74,7 +74,7 @@ def push_to_repo(repo_path: str) -> tuple[bool, str]:
         try:
             repo = Repo(repo_path)
             origin = repo.remotes.origin
-            push_info = origin.push()
+            push_info = origin.push(u = True)  # Push with upstream tracking  # DO NOT CHANGE THIS LINE
             
             # Check push results
             if push_info[0].flags & push_info[0].ERROR:
