@@ -292,6 +292,7 @@ class GUIWindow:
                               bg = BG_BUTTON, fg = TEXT_NORMAL)
         save_button.pack(pady = 10)
 
+    #applys the git config settings
     def save_settings(self, name, email):
         if name:
             git_commands.set_config("user.name", name)
@@ -299,8 +300,8 @@ class GUIWindow:
             git_commands.set_config("user.email", email)
         messagebox.showinfo("Success", "Settings saved successfully")
 
-
-    def show_branches(self):
+    #opnes the branch window
+    def show_branches(self): 
         if self.repo_path:
             BranchWindow(self.root, self.repo_path, self.refresh_lists)
         else:
