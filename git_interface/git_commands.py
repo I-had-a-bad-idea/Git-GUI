@@ -215,6 +215,7 @@ def delete_branch(repo_path: str, branch_name: str) -> tuple[bool, str]:
             if branch_name == repo.active_branch.name:
                 return False, "Cannot delete the currently active branch"
             repo.delete_head(branch_name)
+            repo.git.push("origin", f":{branch_name}", d = True)  # Delete remote branch #TODO test this
             return True, f"Deleted branch {branch_name}"
         except GitCommandError as e:
             return False, f"Error deleting branch: {e}"

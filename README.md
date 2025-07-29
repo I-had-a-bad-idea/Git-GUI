@@ -23,6 +23,8 @@ A modern, user-friendly graphical interface for Git operations, built with Pytho
   - Push to remote
   - Pull from remote
   - View file differences
+  - Create/Delete/Switch branches
+  - View your git history (log)
 
 
 ## Releases
@@ -46,6 +48,8 @@ The latest stable release can be downloaded from the [releases page](https://git
    - View file differences in the diff panel
    - Commit changes with a message
    - Push/pull changes to/from remote
+   - Create/Delete/Switch its branches
+   - Get log data
    [Screenshot of main interface with annotations]
 
 ## Requirements
@@ -60,6 +64,12 @@ Git configuration can be accessed through the settings menu (⚙):
 - Set Git username
 - Set Git email
 - [Screenshot of settings window]
+
+## Branches
+Branch options can be acccessed through the branch menu:
+- Create new branches
+- Delete branches
+- Switch to a different branch
 
 
 ## Getting Help

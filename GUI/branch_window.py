@@ -3,6 +3,8 @@ from tkinter import messagebox
 from git_interface import git_commands
 from .theme import *
 
+
+
 class BranchWindow:
     def __init__(self, root, repo_path, refresh_callback):
         self.window = tk.Toplevel(root)
