@@ -9,6 +9,7 @@ A modern, user-friendly graphical interface for Git operations, built with Pytho
   - Create new repositories 
   - Clone remote repositories
   - Quick repository switching
+
   ![Screenshot of startup window](Assets/Startup_menu.png)
 
 - **Intuitive Interface**
@@ -16,6 +17,7 @@ A modern, user-friendly graphical interface for Git operations, built with Pytho
   - File-specific diff view
   - Command output log
   - Branch management
+
   ![Screenshot of main window](Assets/Main_gui.png)
 
 - **Core Git Operations**
