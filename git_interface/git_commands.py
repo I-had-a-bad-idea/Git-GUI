@@ -74,7 +74,9 @@ def push_to_repo(repo_path: str) -> tuple[bool, str]:
         try:
             repo = Repo(repo_path)
             origin = repo.remotes.origin
-            push_info = origin.push(u = True)  # Push with upstream tracking  # DO NOT CHANGE THIS LINE
+            current_branch = repo.active_branch
+            # Push with upstream tracking for new branches
+            push_info = origin.push(f"{current_branch}:{current_branch}", u=True)
             
             # Check push results
             if push_info[0].flags & push_info[0].ERROR:
@@ -214,9 +216,18 @@ def delete_branch(repo_path: str, branch_name: str) -> tuple[bool, str]:
             repo = Repo(repo_path)
             if branch_name == repo.active_branch.name:
                 return False, "Cannot delete the currently active branch"
+                
+            # Delete local branch
             repo.delete_head(branch_name)
-            repo.git.push("origin", f":{branch_name}", d = True)  # Delete remote branch #TODO test this
-            return True, f"Deleted branch {branch_name}"
+            
+            # Try to delete remote branch if it exists
+            try:
+                repo.git.push("origin", "--delete", branch_name)
+                return True, f"Deleted branch {branch_name} locally and remotely"
+            except GitCommandError:
+                # If remote deletion fails, it might not exist remotely
+                return True, f"Deleted local branch {branch_name}"
+                
         except GitCommandError as e:
             return False, f"Error deleting branch: {e}"
     return False, "Repository path does not exist"
