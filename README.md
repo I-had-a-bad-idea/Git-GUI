@@ -9,14 +9,14 @@ A modern, user-friendly graphical interface for Git operations, built with Pytho
   - Create new repositories 
   - Clone remote repositories
   - Quick repository switching
-  ![Screenshot of startup window](assets/Startup_menu.png)
+  ![Screenshot of startup window](Assets/Startup_menu.png)
 
 - **Intuitive Interface**
   - Clear visibility of staged and unstaged changes
   - File-specific diff view
   - Command output log
   - Branch management
-  ![Screenshot of main window](assets/Main_gui.png)
+  ![Screenshot of main window](Assets/Main_gui.png)
 
 - **Core Git Operations**
   - Stage/unstage files
@@ -40,7 +40,8 @@ The latest stable release can be downloaded from the [releases page](https://git
    - Open an existing Git repository
    - Create a new Git repository
    - Clone a remote repository
-   ![Screenshot of startup options](assets/Startup_menu.png)
+
+![Screenshot of startup options](Assets/Startup_menu.png)
 
 2. Once a repository is opened, you can:
    - View staged and unstaged changes
@@ -50,7 +51,8 @@ The latest stable release can be downloaded from the [releases page](https://git
    - Push/pull changes to/from remote
    - Create/Delete/Switch branches
    - Get log data
-   ![Screenshot of main interface with annotations](assets/Main_gui.png)
+
+![Screenshot of main interface with annotations](Assets/Main_gui.png)
 
 ## Requirements
 
@@ -63,7 +65,8 @@ The latest stable release can be downloaded from the [releases page](https://git
 Git configuration can be accessed through the settings menu (⚙):
 - Set Git username
 - Set Git email
-![Screenshot of settings window](assets/Settings_menu.png)
+
+![Screenshot of settings window](Assets/Settings_menu.png)
 
 ## Branch Management
 
@@ -74,7 +77,8 @@ Branch operations can be accessed through the branch menu (⎇):
 - View current active branch
 - Automatic upstream tracking for new branches
 - Remote branch synchronization
-![Screenshot of branch management window](assets/Branch_menu.png)
+
+![Screenshot of branch management window](Assets/Branch_menu.png)
 
 ## Repository History
 
