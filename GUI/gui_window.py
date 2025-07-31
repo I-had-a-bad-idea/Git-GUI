@@ -2,7 +2,6 @@ import tkinter as tk
 from tkinter import filedialog, messagebox
 from git_interface import git_commands
 from .theme import *
-from .graph_window import GraphWindow
 from .branch_window import BranchWindow
 
 class GUIWindow:
