@@ -1,3 +1,13 @@
+![MIT License](https://img.shields.io/badge/license-MIT-green)
+![Python](https://img.shields.io/badge/python-3.7%2B-blue)
+![Commit Activity](https://img.shields.io/github/commit-activity/m/I-had-a-bad-idea/PV)
+![Last Commit](https://img.shields.io/github/last-commit/I-had-a-bad-idea/PV)
+![Open Issues](https://img.shields.io/github/issues/I-had-a-bad-idea/PV)
+![Closed Issues](https://img.shields.io/github/issues-closed/I-had-a-bad-idea/PV)
+![Repo Size](https://img.shields.io/github/repo-size/I-had-a-bad-idea/PV)
+![Contributors](https://img.shields.io/github/contributors/I-had-a-bad-idea/PV)
+
+
 # Git GUI
 
 A modern, user-friendly graphical interface for Git operations, built with Python. This tool simplifies Git operations through an intuitive graphical interface, making version control more accessible to users of all experience levels.

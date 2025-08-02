@@ -1,5 +1,5 @@
 import tkinter as tk
-from tkinter import ttk
+from tkinter import ttk, messagebox
 from git_interface import git_commands
 from .theme import *
 
@@ -10,16 +10,16 @@ class GraphWindow:
         self.window = tk.Toplevel(root)
         self.window.title("Git History")
         self.window.geometry("800x600")
-        self.window.config(bg=BG_DARK)
+        self.window.config(bg = BG_DARK)
         
         self.repo_path = repo_path
         
         # Create main canvas for the graph
-        self.canvas_frame = tk.Frame(self.window, bg=BG_DARK)
-        self.canvas_frame.pack(fill="both", expand=True, padx=10, pady=10)
+        self.canvas_frame = tk.Frame(self.window, bg = BG_DARK)
+        self.canvas_frame.pack(fill = "both", expand = True, padx = 10, pady = 10)
         
-        self.canvas = tk.Canvas(self.canvas_frame, bg=BG_DARKER)
-        self.canvas.pack(side="left", fill="both", expand=True)
+        self.canvas = tk.Canvas(self.canvas_frame, bg = BG_DARKER)
+        self.canvas.pack(side = "left", fill = "both", expand = True)
         
         # Add scrollbar
         scrollbar = ttk.Scrollbar(self.canvas_frame, orient="vertical", command=self.canvas.yview)
@@ -30,7 +30,7 @@ class GraphWindow:
         self.draw_graph()
         
         # Add refresh button
-        refresh_button = tk.Button(self.window, text="Refresh", 
+        refresh_button = tk.Button(self.window, text = "Refresh", 
                                  command=self.refresh_graph,
                                  **BUTTON_STYLE)
         refresh_button.pack(pady=5)
@@ -39,6 +39,13 @@ class GraphWindow:
         self.canvas.delete("all")  # Clear existing content
         
         # Get git log with graph info
+        success, message, branches = git_commands.get_branches(self.repo_path)
+        if not success:
+            messagebox.showerror("Error", message)
+            return
+        
+        
+        
         success, message, commits = git_commands.get_log(self.repo_path)
         if not success:
             self.canvas.create_text(10, 10, anchor="nw", text=message, 
