@@ -1,18 +1,25 @@
 import tkinter as tk
 from GUI.startup_window import StartupWindow
 from GUI.theme import *
-import os.path as path
+import os
+import sys
+
+
+
+def resource_path(relative_path):
+    try:
+        base_path = sys._MEIPASS #type: ignore
+    except Exception:
+        base_path = os.path.abspath(".")
+
+    return os.path.join(base_path, relative_path)
 
 
 if __name__ == "__main__":
     root = tk.Tk()
-    
-    # Set application icon  #FIXME this for some f***ing reason doesn't work when run from .exe
-    # path_to_logo = path.abspath(".")
-    # path_to_logo = path.join(path_to_logo, "Assets/GUI-Git-Logo.png")
-    # icon = tk.PhotoImage(file = path_to_logo)
-    # root.iconphoto(True, icon)
-    
+            
+    icon = tk.PhotoImage(file = resource_path("GUI-Git-Logo.png"))
+    root.iconphoto(True, icon)
     # Apply default theme
     root.configure(bg = BG_DARK)
     
