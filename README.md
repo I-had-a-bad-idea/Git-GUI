@@ -1,11 +1,11 @@
 ![MIT License](https://img.shields.io/badge/license-MIT-green)
 ![Python](https://img.shields.io/badge/python-3.7%2B-blue)
-![Commit Activity](https://img.shields.io/github/commit-activity/m/I-had-a-bad-idea/PV)
-![Last Commit](https://img.shields.io/github/last-commit/I-had-a-bad-idea/PV)
-![Open Issues](https://img.shields.io/github/issues/I-had-a-bad-idea/PV)
-![Closed Issues](https://img.shields.io/github/issues-closed/I-had-a-bad-idea/PV)
-![Repo Size](https://img.shields.io/github/repo-size/I-had-a-bad-idea/PV)
-![Contributors](https://img.shields.io/github/contributors/I-had-a-bad-idea/PV)
+![Commit Activity](https://img.shields.io/github/commit-activity/m/I-had-a-bad-idea/Git-GUI)
+![Last Commit](https://img.shields.io/github/last-commit/I-had-a-bad-idea/Git-GUI)
+![Open Issues](https://img.shields.io/github/issues/I-had-a-bad-idea/Git-GUI)
+![Closed Issues](https://img.shields.io/github/issues-closed/I-had-a-bad-idea/Git-GUI)
+![Repo Size](https://img.shields.io/github/repo-size/I-had-a-bad-idea/Git-GUI)
+![Contributors](https://img.shields.io/github/contributors/I-had-a-bad-idea/Git-GUI)
 
 
 # Git GUI
