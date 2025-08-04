@@ -21,7 +21,7 @@ if __name__ == "__main__":
     icon = tk.PhotoImage(file = resource_path("GUI-Git-Logo.png"))
     root.iconphoto(True, icon)
     # Apply default theme
-    root.configure(bg = BG_DARK)
+    root.configure(bg = BG_DARK) #dark mode, yeah
     
     startup_window = StartupWindow(root)
     root.mainloop()
