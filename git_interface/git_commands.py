@@ -123,13 +123,14 @@ def get_log(repo_path: str) -> tuple[bool, str, list]:
         try:
             repo = Repo(repo_path)
             log_entries = []
-            for commit in repo.iter_commits():
-                log_entries.append({
-                    "commit": commit.hexsha,
-                    "author": commit.author.name,
-                    "date": commit.committed_datetime,
-                    "message": commit.message.strip(),
-                })
+            for branch in get_branches(repo_path)[2]["branches"]:
+                for commit in repo.iter_commits(branch):
+                    log_entries.append({
+                        "commit": commit.hexsha,
+                        "author": commit.author.name,
+                        "date": commit.committed_datetime,
+                        "message": commit.message.strip()
+                    })
             return True, "", log_entries
         except GitCommandError as e:
             print(f"Error getting log: {e}")
