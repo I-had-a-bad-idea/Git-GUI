@@ -44,8 +44,9 @@ class GraphWindow:
             messagebox.showerror("Error", message)
             return
         
-        
-        
+        branches = branches["branches"]
+
+
         success, message, commits = git_commands.get_log(self.repo_path)
         if not success:
             self.canvas.create_text(10, 10, anchor="nw", text=message, 
@@ -57,25 +58,36 @@ class GraphWindow:
         y_start = 50
         y_spacing = 40
         branch_spacing = 20
-        
+        print(f"Branches: {branches}")
+
+        commits_in_branches : dict = {}
+
+        for branch in branches:
+            commits_in_branches[branch] = git_commands.get_commits_in_branch(self.repo_path, branch)
+
         # Draw commits
         for i, commit in enumerate(commits):
+            x = x_start
+            for branch in branches:
+                if commit in commits_in_branches[branch]:
+                    x = x_start + i * branch_spacing
+                    break
             y = y_start + (i * y_spacing)
             
             # Draw commit circle
-            self.canvas.create_oval(x_start-5, y-5, x_start+5, y+5, 
-                                  fill=BG_LIGHTER, outline=TEXT_NORMAL)
+            self.canvas.create_oval(x - 5, y - 5, x + 5, y + 5, 
+                                  fill = BG_LIGHTER, outline = TEXT_NORMAL)
             
             # Draw commit info
             commit_text = f"{commit['commit'][:7]} - {commit['message']} ({commit['author']})"
-            self.canvas.create_text(x_start + 20, y, anchor="w", 
-                                  text=commit_text, fill=TEXT_NORMAL, 
-                                  font=FONT_NORMAL)
+            self.canvas.create_text(x + 20, y, anchor="w", 
+                                  text = commit_text, fill = TEXT_NORMAL, 
+                                  font = FONT_NORMAL)
             
             # Draw lines to parent commits
             if i < len(commits) - 1:
-                self.canvas.create_line(x_start, y+5, x_start, y+y_spacing-5, 
-                                     fill=TEXT_NORMAL)
+                self.canvas.create_line(x, y + 5, x, y + y_spacing - 5, 
+                                     fill = TEXT_NORMAL)
         
         # Update canvas scroll region
         total_height = len(commits) * y_spacing + y_start * 2

@@ -169,6 +169,7 @@ class GUIWindow:
         self.unstaged_file_list.bind('<<ListboxSelect>>', self.show_unstaged_diff)
         self.staged_file_list.bind('<<ListboxSelect>>', self.show_staged_diff)
 
+
     def clone(self):
         git_commands.clone_repo(self.repo_url, self.repo_path)
         self.refresh_lists()
