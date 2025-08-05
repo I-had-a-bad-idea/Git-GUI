@@ -253,11 +253,6 @@ def branch_contains_commit(repo_path: str, branch_name: str, commit) -> bool:
         else:
             return False
 
-        if repo.git.branch(branch_name, contains = commit["commit"]):
-            return True
-        else:
-            return False
-
     except GitCommandError as e:
         print(f"Error accessing repository: {e}")
         return False

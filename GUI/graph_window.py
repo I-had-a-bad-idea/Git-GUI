@@ -46,12 +46,6 @@ class GraphWindow:
         
         branches = branches["branches"]
 
-
-        success, message, commits = git_commands.get_log(self.repo_path)
-        if not success:
-            self.canvas.create_text(10, 10, anchor="nw", text=message, 
-                                  fill=TEXT_NORMAL, font=FONT_NORMAL)
-            return
             
         # Start coordinates
         x_start = 50
@@ -63,35 +57,47 @@ class GraphWindow:
         commits_in_branches : dict = {}
 
         for branch in branches:
-            commits_in_branches[branch] = git_commands.get_commits_in_branch(self.repo_path, branch)
+            commits_in_branches[branch] = git_commands.get_commits_in_branch(self.repo_path, branch)[2]
 
-        # Draw commits
-        for i, commit in enumerate(commits):
-            x = x_start
-            for branch in branches:
-                if commit in commits_in_branches[branch]:
-                    x = x_start + i * branch_spacing
-                    break
-            y = y_start + (i * y_spacing)
-            
-            # Draw commit circle
-            self.canvas.create_oval(x - 5, y - 5, x + 5, y + 5, 
-                                  fill = BG_LIGHTER, outline = TEXT_NORMAL)
-            
-            # Draw commit info
-            commit_text = f"{commit['commit'][:7]} - {commit['message']} ({commit['author']})"
-            self.canvas.create_text(x + 20, y, anchor="w", 
-                                  text = commit_text, fill = TEXT_NORMAL, 
-                                  font = FONT_NORMAL)
-            
-            # Draw lines to parent commits
-            if i < len(commits) - 1:
-                self.canvas.create_line(x, y + 5, x, y + y_spacing - 5, 
-                                     fill = TEXT_NORMAL)
+        print(f"Commits in branches: {commits_in_branches}")
+
+        commits : list = []
+
+        for branch in branches:
+            for commit in commits_in_branches[branch]:
+                if commit in commits:
+                    continue
+                commits.append([commit, branch])
+
+        commits.sort(key = lambda x: x[0].committed_datetime, reverse = True)
         
-        # Update canvas scroll region
-        total_height = len(commits) * y_spacing + y_start * 2
-        self.canvas.configure(scrollregion=(0, 0, 800, total_height))
+        print(f"Commits: {commits}")
+
+        drawn_commits : list = []
+
+        for commit_data in commits:
+            commit, branch = commit_data
+            if commit in drawn_commits:
+                continue
+            x = x_start + branches.index(branch) * branch_spacing
+            y = y_start + len(drawn_commits) * y_spacing
+
+            self.canvas.create_oval(x - 5, y - 5, x + 5, y + 5,
+                                  fill = BG_LIGHTER, outline = TEXT_NORMAL)
+                
+            commit_text = f"{commit.message})"
+            self.canvas.create_text(x + 20, y, anchor="w",
+                                  text = commit_text, fill = TEXT_NORMAL,
+                                  font = FONT_NORMAL)
+                
+            self.canvas.create_line(x, y + 5, x, y + y_spacing - 5,
+                                 fill = TEXT_NORMAL)
+                
+            drawn_commits.append(commit)
+
+        total_height = len(drawn_commits) * y_spacing + y_start * 2
+        self.canvas.configure(scrollregion = (0, 0, 800, total_height))
+               
 
     def refresh_graph(self):
         self.draw_graph()
