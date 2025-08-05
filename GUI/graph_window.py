@@ -55,14 +55,12 @@ class GraphWindow:
 
         furthest_x = len(branches) * branch_spacing + x_start
 
-        print(f"Branches: {branches}")
 
         commits_in_branches : dict = {}
 
         for branch in branches:
             commits_in_branches[branch] = git_commands.get_commits_in_branch(self.repo_path, branch)[2]
 
-        print(f"Commits in branches: {commits_in_branches}")
 
         # Create a mapping of commits to their positions and branch info
         commit_positions = {}  # commit_hash -> (x, y, branch)
@@ -76,8 +74,6 @@ class GraphWindow:
 
         commits.sort(key = lambda x: x[0].committed_datetime, reverse = True)
         
-        print(f"Commits: {commits}")
-
         drawn_commits : list = []
 
         # First pass: draw commits and store their positions
