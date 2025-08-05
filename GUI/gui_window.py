@@ -17,6 +17,7 @@ class GUIWindow:
         root.title("Git GUI")
         root.config(bg = BG_DARK)
         root.geometry("1200x800")
+        root.state("zoomed")  # Start maximized
 
         # Create toolbar
         toolbar = tk.Frame(root, bg = BG_LIGHTER, height = 35)
