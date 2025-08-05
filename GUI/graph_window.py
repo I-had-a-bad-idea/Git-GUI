@@ -52,6 +52,9 @@ class GraphWindow:
         y_start = 50
         y_spacing = 40
         branch_spacing = 60  # Increased spacing for better visibility
+
+        furthest_x = len(branches) * branch_spacing + x_start
+
         print(f"Branches: {branches}")
 
         commits_in_branches : dict = {}
@@ -94,7 +97,7 @@ class GraphWindow:
                                   fill = BG_LIGHTER, outline = TEXT_NORMAL)
                 
             commit_text = f"{commit.message}"
-            self.canvas.create_text(x + 20, y, anchor="w",
+            self.canvas.create_text(furthest_x - 20, y, anchor="w",
                                   text = commit_text, fill = TEXT_NORMAL,
                                   font = FONT_NORMAL)
                 

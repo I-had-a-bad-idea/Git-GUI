@@ -27,6 +27,7 @@ A modern, user-friendly graphical interface for Git operations, built with Pytho
   - File-specific diff view
   - Command output log
   - Branch management
+  - History view
 
   ![Screenshot of main window](Assets/Main_gui.png)
 
@@ -37,7 +38,7 @@ A modern, user-friendly graphical interface for Git operations, built with Pytho
   - Pull from remote
   - View file differences
   - Create/Delete/Switch branches
-  - View your git history (log)
+  - View your git history (text and graph)
   - Branch management with remote synchronization
 
 ## Releases
@@ -100,6 +101,12 @@ Text-based log showing:
  - Commit messages
  - Timestamps
 
+Viewing the history as a graph:
+- Open the branch window
+- Click on "View Graph"
+- Enjoy a visual representation of your repo history
+
+![Screenshot of history graph](Assets/History_graph.png)
 
 ## Getting Help
 
