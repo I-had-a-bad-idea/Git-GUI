@@ -51,7 +51,7 @@ class GraphWindow:
         x_start = 50
         y_start = 50
         y_spacing = 40
-        branch_spacing = 20
+        branch_spacing = 60  # Increased spacing for better visibility
         print(f"Branches: {branches}")
 
         commits_in_branches : dict = {}
@@ -61,6 +61,8 @@ class GraphWindow:
 
         print(f"Commits in branches: {commits_in_branches}")
 
+        # Create a mapping of commits to their positions and branch info
+        commit_positions = {}  # commit_hash -> (x, y, branch)
         commits : list = []
 
         for branch in branches:
@@ -75,25 +77,81 @@ class GraphWindow:
 
         drawn_commits : list = []
 
-        for commit_data in commits:
+        # First pass: draw commits and store their positions
+        for i, commit_data in enumerate(commits):
             commit, branch = commit_data
             if commit in drawn_commits:
                 continue
+            
             x = x_start + branches.index(branch) * branch_spacing
             y = y_start + len(drawn_commits) * y_spacing
 
+            # Store position for line drawing
+            commit_positions[commit.hexsha] = (x, y, branch)
+
+            # Draw commit circle and text
             self.canvas.create_oval(x - 5, y - 5, x + 5, y + 5,
                                   fill = BG_LIGHTER, outline = TEXT_NORMAL)
                 
-            commit_text = f"{commit.message})"
+            commit_text = f"{commit.message}"
             self.canvas.create_text(x + 20, y, anchor="w",
                                   text = commit_text, fill = TEXT_NORMAL,
                                   font = FONT_NORMAL)
                 
-            self.canvas.create_line(x, y + 5, x, y + y_spacing - 5,
-                                 fill = TEXT_NORMAL)
-                
             drawn_commits.append(commit)
+
+        # Second pass: draw connecting lines between commits and their parents
+
+        for commit_data in commits:
+            commit, branch = commit_data
+            if commit.hexsha not in commit_positions:
+                continue
+                
+            current_x, current_y, current_branch = commit_positions[commit.hexsha]
+            
+            # Draw lines to parent commits
+            for parent in commit.parents:
+                parent_hash = parent.hexsha
+                if parent_hash in commit_positions:
+                    parent_x, parent_y, parent_branch = commit_positions[parent_hash]
+                    
+                    # Choose line color based on whether it's the same branch
+                    line_color = TEXT_NORMAL if current_branch == parent_branch else TEXT_GRAY
+                    
+                    if current_x == parent_x:
+                        # Straight line for same branch
+                        self.canvas.create_line(current_x, current_y + 5, 
+                                              parent_x, parent_y - 5,
+                                              fill = line_color, width = 2)
+                    else:
+                        # Curved line for merges/branches - simplified as angled line
+                        # Draw line from current commit down, then across, then up to parent
+                        mid_y = current_y + (parent_y - current_y) / 2
+                        
+                        self.canvas.create_line(current_x, current_y + 5,
+                                              current_x, mid_y,
+                                              fill = line_color, width = 2)
+                        self.canvas.create_line(current_x, mid_y,
+                                              parent_x, mid_y,
+                                              fill = line_color, width = 2)
+                        self.canvas.create_line(parent_x, mid_y,
+                                              parent_x, parent_y - 5,
+                                              fill = line_color, width = 2)
+
+        # Draw branch lanes (vertical lines showing branch continuity)
+        for i, branch in enumerate(branches):
+            x = x_start + i * branch_spacing
+            branch_commits = [pos for hash, pos in commit_positions.items() 
+                            if pos[2] == branch]
+            
+            if len(branch_commits) > 1:
+                branch_commits.sort(key=lambda pos: pos[1])  # Sort by y position
+                start_y = branch_commits[0][1]
+                
+                # Add branch label at the top
+                self.canvas.create_text(x, start_y - 20, anchor="center",
+                                      text = branch, fill = TEXT_NORMAL,
+                                      font = ("Arial", 8))
 
         total_height = len(drawn_commits) * y_spacing + y_start * 2
         self.canvas.configure(scrollregion = (0, 0, 800, total_height))

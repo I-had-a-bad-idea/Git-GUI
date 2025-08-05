@@ -24,6 +24,7 @@ class BranchWindow:
         list_label.pack(anchor = "w")
         
         self.branch_list = tk.Listbox(list_frame, **LIST_STYLE)
+        self.branch_list.config(selectmode = tk.SINGLE)
         self.branch_list.pack(fill = "both", expand = True)
         
         # New branch frame
