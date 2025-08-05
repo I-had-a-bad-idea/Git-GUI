@@ -8,6 +8,7 @@ BG_BUTTON = "gray25"
 
 # Text colors
 TEXT_NORMAL = "white"
+TEXT_GRAY = "gray70"
 
 # Fonts
 FONT_NORMAL = ("Arial", 11)

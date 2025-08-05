@@ -1,6 +1,7 @@
 import tkinter as tk
 from tkinter import messagebox
 from git_interface import git_commands
+from .graph_window import GraphWindow
 from .theme import *
 
 
@@ -23,6 +24,7 @@ class BranchWindow:
         list_label.pack(anchor = "w")
         
         self.branch_list = tk.Listbox(list_frame, **LIST_STYLE)
+        self.branch_list.config(selectmode = tk.SINGLE)
         self.branch_list.pack(fill = "both", expand = True)
         
         # New branch frame
@@ -48,6 +50,10 @@ class BranchWindow:
                                 command = self.delete_branch, **BUTTON_STYLE)
         delete_button.pack(side="right", padx=5)
         
+        graph_button = tk.Button(button_frame, text = "View Graph",
+                                command = self.view_graph, **BUTTON_STYLE)
+        graph_button.pack(side = "right", padx = 5)
+
         self.refresh_branches()
     
     def refresh_branches(self):
@@ -94,3 +100,6 @@ class BranchWindow:
                 self.refresh_branches()
                 self.refresh_callback()
             messagebox.showinfo("Branch Switch", message)
+
+    def view_graph(self):
+        GraphWindow(self.window, self.repo_path)

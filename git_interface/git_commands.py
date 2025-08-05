@@ -123,19 +123,21 @@ def get_log(repo_path: str) -> tuple[bool, str, list]:
         try:
             repo = Repo(repo_path)
             log_entries = []
-            for commit in repo.iter_commits():
-                log_entries.append({
-                    "commit": commit.hexsha,
-                    "author": commit.author.name,
-                    "date": commit.committed_datetime,
-                    "message": commit.message.strip()
-                })
+            for branch in get_branches(repo_path)[2]["branches"]:
+                for commit in repo.iter_commits(branch):
+                    log_entries.append({
+                        "commit": commit.hexsha,
+                        "author": commit.author.name,
+                        "date": commit.committed_datetime,
+                        "message": commit.message.strip()
+                    })
             return True, "", log_entries
         except GitCommandError as e:
             print(f"Error getting log: {e}")
             return False, f"Error getting log: {e}", []
     else:
         return False, f"Repository path {repo_path} does not exist.", []
+
 
 def get_current_branch(repo_path: str) -> str:
     if os.path.exists(repo_path):
@@ -241,3 +243,28 @@ def switch_branch(repo_path: str, branch_name: str) -> tuple[bool, str]:
         except GitCommandError as e:
             return False, f"Error switching branch: {e}"
     return False, "Repository path does not exist"
+
+
+def branch_contains_commit(repo_path: str, branch_name: str, commit) -> bool:
+    try:
+        repo = Repo(repo_path)
+        if commit in repo.iter_commits(branch_name):
+            return True
+        else:
+            return False
+
+    except GitCommandError as e:
+        print(f"Error accessing repository: {e}")
+        return False
+
+def get_commits_in_branch(repo_path: str, branch_name: str) -> tuple[bool, str, list]:
+    if os.path.exists(repo_path):
+        try:
+            repo = Repo(repo_path)
+            commits = []
+            for commit in repo.iter_commits(branch_name):
+                commits.append(commit)
+            return True, "", commits
+        except GitCommandError as e:
+            return False, f"Error getting commits in branch {branch_name}: {e}", []
+    return False, f"Repository path {repo_path} does not exist.", []
