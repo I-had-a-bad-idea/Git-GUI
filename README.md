@@ -125,12 +125,14 @@ Git-Gui/
 │   └── git_commands.py   # Git command implementations
 ├── GUI/                  # User interface
 │   ├── __init__.py
-│   ├── gui_window.py     # Main repository window
-│   ├── startup_window.py # Initial selection window
-│   ├── branch_window.py  # Branch management window
-│   ├── graph_window.py   # History visualization (not implemented)
-│   └── theme.py         # Styles
+│   ├── gui_window.py     # Main repository window 
+│   ├── startup_window.py # Initial selection window 
+│   ├── branch_window.py  # Branch management window 
+│   ├── graph_window.py   # History visualization (the graph)
+│   └── theme.py          # Styles
+├── Assets/               # Pictures used for README
 └── requirements.txt      # Project dependencies
+
 ```
 
 ## Contributing
