@@ -9,7 +9,7 @@ class GraphWindow:
     def __init__(self, root, repo_path):
         self.window = tk.Toplevel(root)
         self.window.title("Git History")
-        self.window.geometry("800x600")
+        self.window.geometry("1000x800")
         self.window.config(bg = BG_DARK)
         
         self.repo_path = repo_path

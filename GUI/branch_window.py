@@ -10,7 +10,7 @@ class BranchWindow:
     def __init__(self, root, repo_path, refresh_callback):
         self.window = tk.Toplevel(root)
         self.window.title("Branch Management")
-        self.window.geometry("600x500")
+        self.window.geometry("700x500")
         self.window.config(bg = BG_DARK)
         
         self.repo_path = repo_path
