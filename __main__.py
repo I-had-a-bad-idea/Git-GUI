@@ -3,7 +3,7 @@ from GUI.startup_window import StartupWindow
 from GUI.theme import *
 import os
 import sys
-
+import ctypes
 
 
 def resource_path(relative_path):
@@ -17,7 +17,9 @@ def resource_path(relative_path):
 
 if __name__ == "__main__":
     root = tk.Tk()
-            
+    ctypes.windll.shcore.SetProcessDpiAwareness(1)
+    root.tk.call("tk", "scaling", 1.75)    
+
     icon = tk.PhotoImage(file = resource_path("GUI-Git-Logo.png"))
     root.iconphoto(True, icon)
     # Apply default theme
