@@ -47,6 +47,12 @@ The latest stable release can be downloaded from the [releases page](https://git
 - Windows executable (.exe)
 - Release notes detailing changes and improvements
 
+Alternativly you can build your own release using pyinstaller:
+
+```bash
+ pyinstaller __main__.py --icon=GUI-Git-Logo.ico --onefile --name=Git-GUI --add-data "GUI-Git-Logo.png;."
+```
+
 ## Usage
 
 1. Choose one of the following options:
